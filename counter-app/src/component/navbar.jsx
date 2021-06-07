@@ -9,6 +9,6 @@ const NavBar = ({ totalCounters }) => {
             </a>
         </nav>
     );
-}
+};
 
 export default NavBar;

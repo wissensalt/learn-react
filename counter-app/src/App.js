@@ -17,33 +17,33 @@ class App extends Component {
   handleDelete = (counterId) => {
     const filteredCounters = this.state.counters.filter(c => c.id !== counterId)
     this.setState({ counters: filteredCounters })
-  }
+  };
 
   handleReset = () => {
     const counters = this.state.counters.map(c => {
-      c.value = 0
+      c.value = 0;
 
       return c
-    })
+    });
 
     this.setState({ counters })
-  }
+  };
 
   handleIncrement = (counter) => {
-    const counters = [...this.state.counters]
-    const index = counters.indexOf(counter)
-    counters[index] = { ...counter }
-    counters[index].value++
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value++;
     this.setState({ counters })
-  }
+  };
 
   handleDecrement = (counter) => {
-    const counters = [...this.state.counters]
-    const index = counters.indexOf(counter)
-    counters[index] = { ...counter }
-    counters[index].value--
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value--;
     this.setState({ counters })
-  }
+  };
 
   render() {
     return (
