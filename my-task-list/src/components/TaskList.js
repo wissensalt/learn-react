@@ -7,7 +7,12 @@ class TaskList extends React.Component{
         return (
             <div>
                 {this.props.tasks.map(task => (
-                    <TaskItem key={task.id} task={task} deleteAction={this.props.deleteAction}/>
+                    <TaskItem
+                        key={task.id}
+                        task={task}
+                        deleteAction={this.props.deleteAction}
+                        editAction={this.props.editAction}
+                    />
                 ))}
             </div>
         )
@@ -15,7 +20,9 @@ class TaskList extends React.Component{
 }
 
 TaskList.propTypes = {
-    tasks: PropTypes.array.isRequired
+    tasks: PropTypes.array.isRequired,
+    deleteAction: PropTypes.func,
+    editAction: PropTypes.func
 };
 
 export default TaskList;

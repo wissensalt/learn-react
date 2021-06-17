@@ -3,9 +3,13 @@ import Button from "./Button";
 import PropTypes from "prop-types";
 import "bootstrap/dist/css/bootstrap.min.css"
 
-const TaskItem = ({task, deleteAction}) => {
+const TaskItem = ({task, deleteAction, editAction}) => {
     const deleteById = id => {
         deleteAction(id);
+    };
+
+    const editById = id => {
+        editAction(id);
     };
 
     return (
@@ -14,8 +18,8 @@ const TaskItem = ({task, deleteAction}) => {
                 <div className="input-group m-lg-3">
                     <div className="form-control me-1 float-start">{task.value}</div>
                     <div className="btn-group p-1">
-                        <Button text="edit" variant="success"/>
-                        <Button text="delete" variant="danger" action={() =>deleteById(task.id)}/>
+                        <Button text="edit" variant="warning" action={() => editById(task.id)}/>
+                        <Button text="delete" variant="danger" action={() => deleteById(task.id)}/>
                     </div>
                 </div>
             </div>
