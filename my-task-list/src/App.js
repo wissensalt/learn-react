@@ -5,15 +5,20 @@ import Logo from "./components/Logo";
 import TaskList from "./components/TaskList";
 import "bootstrap/dist/css/bootstrap.min.css"
 import EditModal from "./components/EditModal";
+import DeleteModal from "./components/DeleteModal";
 
 class App extends React.Component {
-    state = { tasks : [], modalState: false, editData: {} };
+    state = {
+        tasks : [],
+        editModalState: false,
+        deleteModalState: false,
+        editData: {}
+    };
 
-    deleteTask = id => {
+    deleteTask = () => {
+        this.handleModalDelete();
         this.setState({
-            tasks: this.state.tasks.filter(task => task.id !== id),
-            modalState: this.state.modalState,
-            editData: {},
+            tasks: this.state.tasks.filter(task => task.id !== this.state.editData.id),
         });
     };
 
@@ -24,7 +29,7 @@ class App extends React.Component {
         };
         this.setState({
             tasks: [...this.state.tasks, newData],
-            modalState: this.state.modalState,
+            editModalState: this.state.editModalState,
             editData: {},
         });
     };
@@ -33,7 +38,7 @@ class App extends React.Component {
         const newTasks = [...this.state.tasks.filter(task => task.id !== this.state.id), this.state.editData];
         this.setState({
             tasks : newTasks,
-            modalState: this.state.modalState,
+            editModalState: this.state.editModalState,
             editData: {},
         });
     };
@@ -41,7 +46,16 @@ class App extends React.Component {
     showEditTask = (id) => {
         this.setState({
             tasks: this.state.tasks,
-            modalState: !this.state.modalState,
+            editModalState: !this.state.editModalState,
+            editData: this.getTaskById(id)
+        });
+    };
+
+    showDeleteTask = id => {
+        this.setState({
+            tasks: this.state.tasks,
+            editModalState: this.state.editModalState,
+            deleteModalState: !this.state.deleteModalState,
             editData: this.getTaskById(id)
         });
     };
@@ -54,16 +68,25 @@ class App extends React.Component {
         return this.state.tasks.find(task => task.id === id);
     };
 
-    handleModal = () => {
+    handleModalEdit = () => {
         this.setState({
             tasks: this.state.tasks,
-            modalState: !this.state.modalState,
+            editModalState: !this.state.editModalState,
+            editData: {},
+        });
+    };
+
+    handleModalDelete = () => {
+        this.setState({
+            tasks: this.state.tasks,
+            editModalState: this.state.editModalState,
+            deleteModalState: !this.state.deleteModalState,
             editData: {},
         });
     };
 
     handleCard = () => {
-        if (this.state.modalState) {
+        if (this.state.editModalState || this.state.deleteModalState) {
             return "fade"
         }
 
@@ -74,18 +97,23 @@ class App extends React.Component {
         return (
             <div>
                 <EditModal
-                    handleModal={this.handleModal}
-                    modalState={this.state.modalState}
+                    handleModal={this.handleModalEdit}
+                    modalState={this.state.editModalState}
                     editData={this.state.editData}
                     editAction={this.editTask}
                 />
-
+                <DeleteModal
+                    handleModal={this.handleModalDelete}
+                    modalState={this.state.deleteModalState}
+                    deleteData={this.state.editData}
+                    deleteAction={this.deleteTask}
+                />
                 <div className={`card m-auto ${this.handleCard()}`} style={cardStyle}>
                     <div className="card-body">
                         <Logo/>
                         <TaskList
                             tasks={this.state.tasks}
-                            deleteAction={this.deleteTask}
+                            deleteAction={this.showDeleteTask}
                             editAction={this.showEditTask}
                         />
                         <FormInput addAction={this.addTask}/>
