@@ -1,2 +1,9 @@
 # Local Netlify folder
 .netlify
+.DS_Store
+.idea/*
+*/.gitignore
+*/.idea/*
+*/yarn.lock
+*/.eslintcache
+*/.gitignore
